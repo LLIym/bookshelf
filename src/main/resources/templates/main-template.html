@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Bookshelf</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"/>   
+    </head>
+    <body>
+
+        <div th:replace="fragments/menu :: main"></div>
+
+        <div class="w3-container w3-margin" layout:fragment="content">
+           This is placeholder for content!
+        </div>
+        
+        <div class="w3-panel" layout:fragment="footer">
+            this is a footer
+        </div>
+    </body>
+</html>
