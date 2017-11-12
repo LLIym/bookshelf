@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/book").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/register").permitAll()
+                .antMatchers("/api/*", "/js/*").permitAll()
                 .antMatchers("/h2-console").hasAuthority("admin")
                 .anyRequest().authenticated()
                 .and().csrf().disable().formLogin()

@@ -2,20 +2,38 @@
 <html xmlns="http://www.w3.org/1999/xhtml" layout:decorator="main-template">
     <head>
         <title>Home - Bookshelf</title>
+        <script src="https://www.w3schools.com/lib/w3.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="/js/dynamic-search.js"></script>
     </head>
     <body>
 
         <div layout:fragment="content">
 
-            <form class="w3-row-padding" action="/" th:action="@{/}" method="post">
-                <button class="w3-button w3-border w3-green w3-right" style="width:100px">Search</button>
+            <form class="w3-row-padding" action="#" method="get">
                 <div class="w3-rest">
-                    <input type="text" class="w3-input w3-border" name="term" th:value="${term}"/>
+                    <input id="term-input" type="text" class="w3-input w3-border" name="term"/>
                 </div>
             </form>
 
-            <div th:replace="fragments/books :: list(${books})"></div>
-        
+            <div id="no-result" class="w3-panel w3-pale-yellow">
+                <h3>No result</h3>
+                <p>Try to refine your search term</p>
+            </div> 
+
+            <div id="book-list" class="w3-row-padding w3-margin-top w3-marging-bottom">
+
+                <div class="w3-col s12 m4 l3 w3-margin-top" w3-repeat="books">
+                    <a href="/book?bookId={{id}}" class="w3-card-4" style="display:block">
+                        <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                        <div class="w3-container">
+                            <h3>{{title}}</h3>
+                            <p>{{author}}</p>
+                        </div>
+                    </a>
+                </div>
+
+            </div>
         </div>
     </body>
 </html>
