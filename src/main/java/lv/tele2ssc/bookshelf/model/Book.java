@@ -41,7 +41,8 @@ public class Book implements Serializable {
     @Column
     @Range(min = 1000, max = 5000) // validate number for range
     private int year;
-
+    @Column
+    private String imageFileName;
     
     // GETTERS AND SETTERS
     
@@ -93,6 +94,14 @@ public class Book implements Serializable {
         this.year = year;
     }
 
+    public String getImageFileName() {
+        return imageFileName;
+    }
+
+    public void setImageFileName(String imageFileName) {
+        this.imageFileName = imageFileName;
+    }
+    
     @Override
     public String toString() {
         return "Book{" + "id=" + id + ", title=" + title + ", author=" + author + ", description=" + description + ", isbn=" + isbn + ", year=" + year + '}';

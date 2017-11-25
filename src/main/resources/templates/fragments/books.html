@@ -11,7 +11,7 @@
 
             <div class="w3-col s12 m4 l3 w3-margin-top" th:each="b : ${books}">
                 <a href="book.html" th:href="@{/book(bookId=${b.id})}" class="w3-card-4" style="display:block">
-                    <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                    <img src="http://via.placeholder.com/300x300" th:src="@{/book-image(bookId=${b.id})}" style="width:100%"/>
                     <div class="w3-container">
                         <h3 th:text="${b.title}">La Geometria Mar</h3>
                         <p th:text="${b.author}">Herodes Palomo Chavez</p>
