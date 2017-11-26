@@ -1,5 +1,6 @@
 package lv.tele2ssc.bookshelf.controllers;
 
+import java.io.IOException;
 import lv.tele2ssc.bookshelf.services.BookService;
 import javax.validation.Valid;
 import lv.tele2ssc.bookshelf.model.Book;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Controller class. Controller class is processing requests from the user.
@@ -55,17 +57,40 @@ public class BookController {
     }
 
     @RequestMapping(path = "/edit-book", method = RequestMethod.POST)
-    public String edit(@Valid Book book, BindingResult bindingResult, Model model) {
+    public String edit(@Valid Book book, BindingResult bindingResult, @RequestParam MultipartFile image, Model model) {
         // checks whether edited book has validation errors
         if (bindingResult.hasErrors()) {
             return "edit-book";
         }
         logger.debug("Saving book {}", book);
+        
+        storeImage(book, image, bindingResult);
+        
+        if (bindingResult.hasErrors()) {
+            return null;
+        }
 
         bookService.save(book);
 
         model.addAttribute("book", book);
         return "redirect:/book?bookId=" + book.getId();
+    }
+
+    private void storeImage(Book book, MultipartFile image, BindingResult bindingResult) {
+        if (image.isEmpty()) {
+            logger.debug("No image uploded preserving previous");
+            Book unchanged = bookService.findById(book.getId());
+            book.setImageFileName(unchanged.getImageFileName());
+        } else {
+            logger.debug("Storing uploaded image {}", image.getOriginalFilename());
+            book.setImageFileName(image.getOriginalFilename());
+            try {
+                imageService.store(book, image);
+            } catch (IOException e) {
+                logger.warn("Cannot save image", e);
+                bindingResult.reject("image");
+            }
+        }
     }
 
     @RequestMapping(path = "/book-image", method = RequestMethod.GET)

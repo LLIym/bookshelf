@@ -7,12 +7,13 @@
 
         <div layout:fragment="content">
 
-            <form action="/edit-book.html" th:action="@{/edit-book}" method="post" th:object="${book}">
+            <form action="/edit-book.html" th:action="@{/edit-book}" method="post" th:object="${book}" enctype="multipart/form-data">
                 <input type="hidden" th:field="*{id}"/>
                 <div class="w3-container w3-margin">
                     <div class="w3-row-padding">
                         <div class="w3-col l4 m6 s12">
-                            <img src="http://via.placeholder.com/300x300" style="width:100%"/>
+                            <img src="http://via.placeholder.com/300x300" th:src="@{/book-image(bookId=*{id})}" style="width:100%"/>
+                            <input type="file" name="image" />
                         </div>
                         <div class="w3-col l8 m6 s12">
                             <div>

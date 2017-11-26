@@ -1,6 +1,7 @@
 package lv.tele2ssc.bookshelf.services;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class ImageService {
@@ -28,6 +30,12 @@ public class ImageService {
         }
         Resource result = new FileSystemResource(resourceFilePath.toFile());
         return result;
+    }
+
+    public void store(Book book, MultipartFile file) throws IOException {
+        String imageFileName = file.getOriginalFilename();
+        Path resourceFilePath = Paths.get(imageStoragePath, String.valueOf(book.getId()), imageFileName);
+        file.transferTo(resourceFilePath.toFile());
     }
     
 }
